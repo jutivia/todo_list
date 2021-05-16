@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Alert from './Alert.js'
 import {categoryData} from './Category.js'
-import { FaBars } from 'react-icons/fa'
+// import { FaBars } from 'react-icons/fa'
 
 function App() {
   const [topic, setTopic] = useState('')
@@ -27,14 +27,16 @@ if(!topic){
   //editing part
 
 }else{
-showAlert(true, 'success', `${topic} added to list`)
-const newList={id:new Date().getTime().toString(), title:topic, note:text, name:categoryName, color:categoryColor  }
-const newCategory={id:new Date().getTime().toString(), name:categoryName, color:categoryColor}
+  if(categoryColor==false && categoryName==false ){
+
+    showAlert(true, 'success', `${topic} added to list`)
+const newList={id:new Date().getTime().toString(), title:topic, note:text, name:'uncategorized', color:'white'}
+const newCategory={id:new Date().getTime().toString(), name:'uncategorized', color:'white'}
 
   setList([...list, newList]);
   const uniqueCategories=[...categoriesSelected, newCategory].reduce((a,c)=>{!a.find(v=>v.name===c.name) &&a.push(c);
     return a;
-
+  
   },[])
  
   setCategoriesSelected(uniqueCategories);
@@ -42,64 +44,88 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
   setText('');
   setCategoryName('');
   setCategoryColor('');
-}
+
+  }else{
+showAlert(true, 'success', `${topic} added to list`)
+const newList={id:new Date().getTime().toString(), title:topic, note:text, name:categoryName, color:categoryColor  }
+const newCategory={id:new Date().getTime().toString(), name:categoryName, color:categoryColor}
+
+  setList([...list, newList]);
+  const uniqueCategories=[...categoriesSelected, newCategory].reduce((a,c)=>{!a.find(v=>v.name===c.name) &&a.push(c);
+    return a;
+  
+  },[])
+ 
+  setCategoriesSelected(uniqueCategories);
+  setTopic('');
+  setText('');
+  setCategoryName('');
+  setCategoryColor('');
+}}
 }
 
 const showAlert = (state=false, status='', msg='')=>{
   setIsAlert({state, status, msg})
 }
-  return (
+  return (<>
     <section className='section-center' >
       <div className='title'>
       <h2>Notes App</h2>
       </div>
+      <div className='section'>
     <button className='nav-toggle' >
-        <FaBars/>
+        <h1>+</h1>
       </button>
       <div className='form-box' onSubmit={handleSubmit}>
        {isAlert.state && <Alert {...isAlert} removeAlert={showAlert} list={list}/>} 
 
         <form className='form' >
 
-            <div className='category'>
-          <h5>Select Category</h5>
+            
+          <h4>Select Category</h4>
+          <div className='category'>
           {categoriesSelected.map(category=>{
-              const { name, color}= category
+              const {name, color}= category
                const myStyle1= {backgroundColor: `${color}`,
                   height:'20px',
-                  width:'auto',
-                  maxWidth:'100px',
+                  width:'90px',
+                  padding:' 5px 10px',
                   borderRadius:'10px',
-                  border:'2px solid black'
-                 
+                  textAlign:'center',
+                  cursor:'pointer'
           }
-              return(<>
-            <div 
+              return(<div className='categoryDiv'>
+            <div className='categoryCircle'
             style={myStyle1} 
             onClick={()=>{setCategoryColor(color); setCategoryName(name)}}>
-             <p>{name}</p>
+             {name}
             </div>
             
                 <br/>
          
-              </>)
+              </div>)
               
           }
           )}
-           <button onClick={()=>setIsNewCategory(!isNewCategory)}>+ New Category</button>
+           <button className='btn-category' onClick={()=>setIsNewCategory(!isNewCategory)}>+ New Category</button>
+           
           {isNewCategory && 
-         <div>  
+         <div >  
+           
           <input type='text'
               placeholder='category name?'
               value={categoryName}
               onChange={(e)=>setCategoryName(e.target.value)}
-
+              className='categoryName'
               />
+              <div className='colors-Div'>
+            <h6>colors</h6>  <div className='dottedLines'></div></div>
+          <div className='circles'>
           {categoryData.map((unit)=>{
             const {id, code, name}= unit
              const myStyle= {backgroundColor: `${code}`,
-                  height:'20px',
-                  width:'20px',
+                  height:'40px',
+                  width:'40px',
                   borderRadius:'50%',
                   pointer:'cursor'
           
@@ -116,6 +142,7 @@ const showAlert = (state=false, status='', msg='')=>{
             
             </div>)
           })}
+          </div>
           </div>}
          
         </div>
@@ -137,8 +164,9 @@ const showAlert = (state=false, status='', msg='')=>{
          <button type='submit' > {isEdit? 'edit' :'Add to List'}</button>
           </form>
       </div>
+      </div>
     </section>
-  );
+  </>);
 }
 
 export default App;
