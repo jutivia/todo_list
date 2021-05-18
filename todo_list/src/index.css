@@ -1,11 +1,11 @@
 
 :root {
-  --transition: all 0.3s linear;
+  
   --spacing: 0.1rem;
  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
  --max-width: 1170px;
-
+--transition:all 0.3s linear;
  --clr-primary-1: hsl(205, 86%, 17%);
  --clr-primary-2: hsl(205, 77%, 27%);
  --clr-primary-3: hsl(205, 72%, 37%);
@@ -14,9 +14,6 @@
 }
 
  
-.section-center{
-
-}
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -24,6 +21,10 @@ body {
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
+  transition: all 0.3s linear;
+  overflow:hidden;
+  max-width:1340px;
+
 }
 
 ul {
@@ -103,16 +104,20 @@ p {
   }
 }
 .nav-toggle {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--clr-primary-5);
   background: transparent;
   border-color: transparent;
   transition: var(--transition);
   cursor: pointer;
-  margin: -2rem 0 0 1.5rem;
+  margin: -2rem 0 0 88%;
+  position:sticky;
+}
+.form-box{
+  margin-top:0rem;
 }
 
-.nav-toggle:focus {
+.nav-toggle:active {
   color: var(--clr-primary-1);
   transform: rotate(90deg);
 }
@@ -122,35 +127,58 @@ p {
   text-align:center;
 
 }
-.category h5{
-margin-left: 6rem;
+.form h4{
+margin:auto 0.5rem;
+
 
 }
 .category{
- display:block;
+display:flex;
+justify-content: space-between;
+flex-wrap:wrap;
+width:95%;
+
  
 }
 .categoryDiv{
   margin-top:15px;
 
 }
+
 .categoryCircle{
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
   rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   color:rgb(61, 58, 58);
   font-weight:bold;
-  padding:5px 5px;
-  margin-top:-5px;
+  font-size:11px; 
+  padding:5px 3px;
+  margin:8px 13px;;
+  cursor:pointer;
   transition: var(--transition);
+   height:20px;
+   display:inline-block;
+   transform:scale(1,1);
+   transition: var(--transition);
+
 }
-.categoryCircle:focus{
-  height:30px;
-  width:95px;
+.toggledCategoryClass:active{
+  
+  transform:scale(1.2,1.2);
 }
+/* .toggledCategoryClass:focus{
+  background-color:rgba(156, 155, 155, 0.575);
+  color:white;
+} */
 .btn-category{
   border:none;
   background-color:transparent;
   margin-bottom: 1rem;
+  cursor:pointer;
+  font-weight:bold;
+  color:rgb(82, 80, 80);
+  margin-top:2rem;
+  
+
 }
 .alert {
   margin-bottom: 1rem;
@@ -173,6 +201,9 @@ margin-left: 6rem;
   color: #0c521c;
   background: #9feeb2;
 }
+.categoryNameContainer{
+  padding:1rem 1rem;
+}
 .categoryName{
   width:95%;
   height: 1.25rem;
@@ -183,20 +214,89 @@ margin-left: 6rem;
 .categoryName:focus{
   outline:none;
 }
+
 .dottedLines{
-  width:89%;
+  width:100%;
   height:30px;
   border-bottom:2px dotted rgb(141, 137, 137);
   margin-left:5px;
+  margin-top:2px;
 
 
 }
 .colors-Div{
   display:flex;
+  width:95%;
 }
 .circles{
   margin:1rem 2rem 1rem 1rem;
   display:flex;
   justify-content: space-between;
+  flex-wrap:wrap;
 
+}
+.category-Colors{
+   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+   rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+   cursor:pointer;
+}
+.wordButtons{
+   display:flex;
+   justify-content:flex-end;
+  
+   
+}
+.saveButton{
+  margin:1rem 1rem 0.25rem 1rem;
+  position:absolute;
+  right:1.5rem;
+  border:none;
+  /* border:1px solid rgba(129, 129, 129, 0.438); */
+  width:80px;
+  height:30px;
+  background-color:rgb(109, 176, 180);
+  color:rgba(250, 246, 246, 0.815);
+  border-radius:10px;
+   box-shadow: rgba(39, 41, 43, 0.3) 0px 1px 2px 0px,
+   rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+}
+.saveButton:hover{
+  background-color:rgba(177, 176, 176, 0.815);
+  color:white;
+}
+
+.input-title{
+  margin-top:3rem;
+  margin-bottom: 10px;
+  margin-left:10px;
+  /* margin:20px 0;  */
+  background-color:transparent;
+  outline:none;
+  width:95%;
+  line-height:20px;
+  border:none;
+  font-size:20px;
+  font-weight:bold;
+}
+.notes{
+  background-color:transparent;
+  outline:none;
+  width:95%;
+  height:25rem;
+  line-height:20px;
+  text-align:top;
+  border:none;
+  margin-bottom: 20px;
+  margin-left:10px;
+}
+.words{
+  /* background-color:rgb(243, 243, 252); */
+  margin-top:20px;
+  padding:10px;
+ box-shadow: rgba(0, 0, 0, 0.192) 0px 5px 30px;
+  position:relative;
+  border-radius:5px;
+  width:95%;
+  height:30rem;
 }

@@ -15,6 +15,13 @@ function App() {
   const [categoryName, setCategoryName]= useState('');
   const [categoryColor, setCategoryColor]= useState('');
   const [isNewCategory, setIsNewCategory]= useState(false)
+  const[addClass, setAddClass]= useState(false)
+  const[addNewNote, setAddNewNote]=useState(false)
+  const[showNotes, setShowNotes]= useState(true)
+
+  const categoriesTab=()=>{
+    
+  }
 
 
 const handleSubmit=(e)=>{
@@ -66,51 +73,57 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
 
 const showAlert = (state=false, status='', msg='')=>{
   setIsAlert({state, status, msg})
-}
+  }
+
   return (<>
     <section className='section-center' >
       <div className='title'>
       <h2>Notes App</h2>
       </div>
       <div className='section'>
-    <button className='nav-toggle' >
+    <button className='nav-toggle' onClick={()=>{setAddNewNote(!addNewNote);
+    setShowNotes(!showNotes);}} >
         <h1>+</h1>
       </button>
+      {addNewNote && <>
       <div className='form-box' onSubmit={handleSubmit}>
        {isAlert.state && <Alert {...isAlert} removeAlert={showAlert} list={list}/>} 
 
-        <form className='form' >
-
-            
+        <form className='form' >     
           <h4>Select Category</h4>
-          <div className='category'>
+          <div className='categories'>
+            <div className='category'>
           {categoriesSelected.map(category=>{
               const {name, color}= category
                const myStyle1= {backgroundColor: `${color}`,
-                  height:'20px',
-                  width:'90px',
                   padding:' 5px 10px',
                   borderRadius:'10px',
                   textAlign:'center',
-                  cursor:'pointer'
+                 
           }
-              return(<div className='categoryDiv'>
-            <div className='categoryCircle'
+              return(<>
+              <div className='categoryDiv'>
+            <div className={`categoryCircle ${addClass? 'toggledCategoryClass' :null }`}
             style={myStyle1} 
-            onClick={()=>{setCategoryColor(color); setCategoryName(name)}}>
+            onClick={()=>{setAddClass(!addClass);
+              setCategoryColor(color); 
+            setCategoryName(name);
+            }}>
              {name}
             </div>
             
                 <br/>
          
-              </div>)
+              </div>
+              </>)
               
           }
           )}
-           <button className='btn-category' onClick={()=>setIsNewCategory(!isNewCategory)}>+ New Category</button>
-           
+           <button className='btn-category' onClick={()=>{setIsNewCategory(!isNewCategory);
+          }}>+ New Category</button>
+           </div>
           {isNewCategory && 
-         <div >  
+         <div className='categoryNameContainer'>  
            
           <input type='text'
               placeholder='category name?'
@@ -124,18 +137,22 @@ const showAlert = (state=false, status='', msg='')=>{
           {categoryData.map((unit)=>{
             const {id, code, name}= unit
              const myStyle= {backgroundColor: `${code}`,
-                  height:'40px',
-                  width:'40px',
+                  height:'30px',
+                  width:'30px',
                   borderRadius:'50%',
-                  pointer:'cursor'
+                  
           
                  
           }
-            return (<div className='category-Colors'>
+          
+            return (<div >
               
             <div key={id}
+           className={`categoryCircle ${addClass? 'toggledCategoryClass' :null} `}
             style={myStyle}
-            onClick={()=>setCategoryColor(code)}>
+            onClick={()=>{setCategoryColor(code);
+              setAddClass(!addClass);
+            }}>
              
             </div>
            
@@ -146,25 +163,42 @@ const showAlert = (state=false, status='', msg='')=>{
           </div>}
          
         </div>
-
+        <div className='words'>
+          <div className='wordButtons'>
+        
+          <div><button type='submit'  className='saveButton'> {isEdit? 'edit' :'save'}</button></div>
+           </div>
          <input type='text' 
          placeholder='Title'
+         className='input-title'
          value={topic}
          onChange={(e)=>setTopic(e.target.value)}></input>
          <br></br>
 
-         <input type='text' 
+         <textarea type='text' 
          placeholder='Notes'
+         className='notes'
+         size='5rem'
          value={text}
          onChange={(e)=>setText(e.target.value)}
-         ></input>
+         ></textarea>
          <br></br>
         
-      
-         <button type='submit' > {isEdit? 'edit' :'Add to List'}</button>
+      </div>
+        
           </form>
       </div>
+     </> }
       </div>
+        
+
+        {showNotes && <article>
+      <div>
+      </div>
+      <div>this is where the notes saved would be mapped out to. its going to show the titles, and a few lines of text in notes with the rest represented as '...'. it would have a delete button and oce tapped on, it goes to an edit page.
+      </div>
+        </article>
+        }
     </section>
   </>);
 }
