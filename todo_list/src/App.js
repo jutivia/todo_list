@@ -4,6 +4,7 @@ import Alert from './Alert.js'
 import {categoryData} from './Category.js'
 // import { FaBars } from 'react-icons/fa'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import {MdAdd } from 'react-icons/md'
 
 const getLocalstorage=()=>{
   let list= localStorage.getItem('list')
@@ -108,7 +109,7 @@ setCategoryName('');
   showAlert(true, 'success', `${topic} changed`)
   //editing part
   setList(list.map(item=>{
-       if(item.id==editId){
+       if(item.id===editId){
          return {...item, title:topic, note:text, name:categoryName, color:categoryColor }
        }
        return item
@@ -215,7 +216,7 @@ const showAlert = (state=false, status='', msg='')=>{
     setIsNewCategory(false);
     setCopyList(list);
     setIsShowNavToggle(false);}} >
-        <h1>+</h1>
+        <MdAdd/>
       </button>
 }
       {isAlert.state && <Alert {...isAlert} removeAlert={showAlert} list={list}/>} 
