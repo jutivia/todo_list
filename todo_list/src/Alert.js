@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react'
 
-const Alert = ({status, msg, removeAlert, list}) => {
+const Alert = ({status, msg, removeAlert,list }) => {
     useEffect(()=>{
        const timeout= setTimeout(()=>{
             removeAlert();
-        },3000)
+        },2000)
         return ()=> clearTimeout(timeout)
     },[list])
 

@@ -17,13 +17,19 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color:rgb(226, 226, 248);
+  background-color:rgb(218, 218, 218);
+   /* background: linear-gradient(90deg,
+     rgb(226, 226, 248)0%,
+     hsl(13, 100%, 72%) 70%
+     ); */
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
   transition: all 0.3s linear;
-  overflow:hidden;
+  overflow-y:scroll;
+  overflow-x:hidden;
   max-width:1340px;
+  
 
 }
 
@@ -94,9 +100,25 @@ p {
 }
 .section {
   width: 90vw;
-  margin: 0 auto;
+  margin: 3rem auto;
   max-width: var(--max-width);
 }
+   /* background-image: url(bg-pattern-intro.svg);
+   opacity:0.5;
+   background-size: 750px;
+   background-repeat: no-repeat;
+   background-position-y: 25vw;
+   background-position-x: -5vw;
+}
+@media screen and (min-width: 900px) {
+  .section {
+    background-size: 1200px;
+    background-repeat: no-repeat;
+    background-position-y: 0vw;
+    background-position-x: 23vw;
+  }
+} */
+
 
 @media screen and (min-width: 992px) {
   .section {
@@ -104,14 +126,18 @@ p {
   }
 }
 .nav-toggle {
-  font-size: 1.8rem;
+  transform: scale(1.7);
   color: var(--clr-primary-5);
   background: transparent;
   border-color: transparent;
   transition: var(--transition);
   cursor: pointer;
   margin: -2rem 0 0 88%;
-  position:sticky;
+  position:fixed;
+  bottom:10%;
+  right:15%;
+  max-width:var(--max-width);
+ 
 }
 .form-box{
   margin-top:0rem;
@@ -122,7 +148,7 @@ p {
   transform: rotate(90deg);
 }
 .title{
-  text-shadow: 2px 2px 4px rgb(109, 176, 180);
+  text-shadow: 4px 4px 4px rgb(130, 157, 158);
   color:rgb(61, 58, 58);
   text-align:center;
 
@@ -134,10 +160,11 @@ margin:auto 0.5rem;
 }
 .category{
 display:flex;
-justify-content: space-between;
+justify-content: space-around;
 flex-wrap:wrap;
 width:95%;
 
+ 
  
 }
 .categoryDiv{
@@ -202,14 +229,16 @@ width:95%;
   background: #9feeb2;
 }
 .categoryNameContainer{
-  padding:1rem 1rem;
+  padding:2rem 1rem;
 }
 .categoryName{
+  margin-top:0.5rem;
   width:95%;
   height: 1.25rem;
   border:none;
   border-bottom:1px solid rgb(204, 79, 7);
   background-color: transparent;
+  font-size:14px;
 }
 .categoryName:focus{
   outline:none;
@@ -227,13 +256,25 @@ width:95%;
 .colors-Div{
   display:flex;
   width:95%;
+  color:rgb(141, 137, 137);
+  justify-content:space-between;
+  
 }
 .circles{
-  margin:1rem 2rem 1rem 1rem;
+  margin:0 auto;
   display:flex;
-  justify-content: space-between;
-  flex-wrap:wrap;
+   justify-content:space-between;
+   flex-wrap:wrap;
+   width:95%;
+   
 
+}
+
+.categoryCircle:hover{
+ transform:scale(0.9);
+}
+.categoryCircle:active{
+  border: 2px solid rgb(161, 160, 160, 0.651);
 }
 .category-Colors{
    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -276,7 +317,7 @@ width:95%;
   width:95%;
   line-height:20px;
   border:none;
-  font-size:20px;
+  font-size:24px;
   font-weight:bold;
 }
 .notes{
@@ -299,4 +340,139 @@ width:95%;
   border-radius:5px;
   width:95%;
   height:30rem;
+}
+.noNotes{
+ margin: 50% auto;
+ text-align:center;
+ font-size:16px;
+}
+.notesPage{
+  margin: 30px 2rem;
+  max-width:95%;
+  display:grid;
+  
+  
+  grid-template-areas:'category category '
+                     'notes notes';
+
+}
+.notesCategory{
+  grid-area:category;
+  display:flex;
+  justify-content: space-around;
+  flex-wrap:wrap;
+  width:100%;
+  margin:0 auto;
+}
+.actualNotes{
+  margin-top:20px;
+grid-area:notes;
+display:flex;
+flex-wrap:wrap;
+justify-content:space-between;
+
+}
+.allNotes{
+  background-color:white;
+  
+}
+.notesCategoryCircle{
+   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+   rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+   color:rgb(61, 58, 58);
+   font-weight:bold;
+   font-size:11px;
+   padding:5px 3px;
+   margin:8px 13px;
+   transition: var(--transition);
+   height:auto-fit;
+   transform:scale(1, 1);
+   transition: var(--transition);
+   width:auto-fit;
+
+}
+.notesCategoryCircle:hover{
+   border: 4px solid rgb(161, 160, 160, 0.651);
+}
+.notesCategoryCircle:active {
+  border: 4px solid rgb(161, 160, 160, 0.651);
+}
+.singleNote{
+  margin:1rem 0.5rem;
+  width:13rem;
+  height:auto;
+  max-height:250px;
+  background-color:rgba(235, 238, 241, 0.856);
+  border-radius:15px;
+text-align:left;
+padding:2px 1rem 1.7rem 1.5rem;
+box-sizing:border-box;
+ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+ rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+ word-break:break-word;
+ 
+}
+.delete-btn{
+ position:relative;
+ top:95%;
+ left:85%;
+  border:none;
+  transform:scale(1.4);
+  color:rgb(63, 62, 62);
+  width:10px;
+  margin-top:0;
+
+ 
+}
+@media screen and (min-width: 600px){
+  .notesPage {
+    margin: 80px 5rem;
+    grid-template-areas: 'category notes'
+                         'category  notes';
+    grid-template-columns: 1fr 4fr;
+    gap:2rem;
+
+  }
+  .notesCategory{
+    flex-direction:column;
+    flex-wrap:none;
+    justify-content:flex-start;
+    margin:3rem 0;
+  }
+.actualNotes{
+  margin-top:-2rem;
+}
+.singleNote{
+ width:15rem;
+
+}
+/* .notesCategoryCircle{
+  width:150px;
+} */
+}
+
+
+@media screen and (min-width: 580px) and (max-width:1000px) {
+  .singleNote {
+    width: 15rem;
+
+  }
+}
+@media screen and (max-width:520px) {
+  .singleNote {
+    width: 12rem;
+
+  }
+}
+  @media screen and (max-width:430px) {
+    .singleNote {
+      width: 9rem;
+
+    }
+}
+@media screen and (min-width: 1020px){
+   .singleNote {
+     width: 22rem;
+
+   }
 }
