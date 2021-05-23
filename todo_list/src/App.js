@@ -368,7 +368,7 @@ const showAlert = (state=false, status='', msg='')=>{
           <br/> <br/>
          
       {isNotesCategory && <div className='notesCategory'>
-         <div style={{display:'flex', justifyContent:'flex-start', margin:'0 0.5rem'}}><CgNotes className='cgNotes'/>
+         <div style={{display:'flex', justifyContent:'flex-start', margin:'0 0.5rem', paddingTop:'20px'}}><CgNotes className='cgNotes'/>
         <div className={` allNotes`} style={{
                   padding:' 5px 30px',
                   borderRadius:'10px',

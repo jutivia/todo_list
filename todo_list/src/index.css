@@ -169,6 +169,7 @@ p {
 .menu-bar:active {
   color: var(--clr-primary-1);
   transform: rotate(90deg);
+  outline:none;
 }
 
 .form-box {
@@ -267,7 +268,8 @@ border-radius:10px;
   padding:2px 0;
   width:95%;
   z-index:3;
-  margin-top:1.3rem;
+  margin-top:1.1em;
+  position:fixed;
 }
 
 .alert-failure {
@@ -426,27 +428,31 @@ border-radius:10px;
 
 .notesCategory {
   position:fixed;
-  top: 3rem;
+  top: 120px;
   grid-area: category;
   display: flex;
   z-index:1;
   background-color:rgb(218, 218, 218);
+  border-right:3px solid var(--clr-primary-5);
+  /* border-top:3px solid var(--clr-primary-5); */
+  
   /* justify-content: space-between; */
   flex-wrap: no-wrap;
   width:300px;
   flex-direction: column;
   flex-wrap: none;
   justify-content: flex-start;
-  margin:  4rem 1rem 3rem 1rem;
+  margin:  0 1rem 3rem 0;
   height: 100%;
-  overflow-y:scroll;
-  padding:3rem 2rem;
+  /* overflow-y:scroll; */
+  padding:2rem 2rem;
   border-radius:10px;
   box-sizing:border-box;
-
-
+  border-radius:0 40px 40px 0;
+    box-shadow: 3px 3px 6px -3px rgba(0, 0, 0, 0.7);
 
 }
+
 
 .actualNotes {
   grid-area: notes;
@@ -455,6 +461,15 @@ border-radius:10px;
   margin: 4% 1rem;
 border-radius:10px;
 padding-top:2rem;
+}
+@media screen and (min-width:720px) {
+  .notesCategory {
+    top: 70px;
+  }
+
+  .actualNotes {
+    padding-top: 5rem;
+  }
 }
 
 
