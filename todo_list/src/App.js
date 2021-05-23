@@ -1,10 +1,13 @@
-import React, {useState, useEffect, Component} from "react";
-import {Spring} from 'react-spring'
+import React, {useState, useEffect} from "react";
+// import {Spring} from 'react-spring'
 import Alert from './Alert.js'
 import {categoryData} from './Category.js'
 // import { FaBars } from 'react-icons/fa'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import {MdAdd } from 'react-icons/md'
+import { FaBars } from 'react-icons/fa';
+import { RiArrowDropUpLine} from 'react-icons/ri'
+import {CgNotes} from'react-icons/cg'
 
 const getLocalstorage=()=>{
   let list= localStorage.getItem('list')
@@ -38,20 +41,16 @@ function App() {
   const[addNewNote, setAddNewNote]=useState(false)
   const[showNotes, setShowNotes]= useState(true)
   const [isShowNavToggle, setIsShowNavToggle]=useState(true);
+  const [isNotesCategory, setIsNotescategory]=useState(false);
+  const [isMenuBar ,setIsMenuBar]= useState(true)
+  const[showCategories, setShowCategories]= useState(false);
   
 
  useEffect(()=>{
    setCopyList(list)
  },[list])
 
-  useEffect(()=>{
-  const newCategory={id:new Date().getTime().toString(), name:'uncategorized', color:'grey'}
-  const uniqueCategories=[...categoriesSelected, newCategory].reduce((a,c)=>{!a.find(v=>v.name===c.name) &&a.push(c);
-    return a;
-  },[])
- 
-  setCategoriesSelected(uniqueCategories);
- },[])
+  
 
  useEffect(()=>{
    localStorage.setItem('list', JSON.stringify(list))
@@ -61,7 +60,7 @@ useEffect(()=>{
    localStorage.setItem('categoriesSelected', JSON.stringify(categoriesSelected))
 },[categoriesSelected])
 
- const removeItem=(id, topic)=>{
+ const removeItem=(id)=>{
     showAlert(true, 'failure', `note deleted`)
     setList(list.filter(item=>item.id !==id))
   setShowNotes(true); 
@@ -74,6 +73,24 @@ setText('');
 setCategoryName('');
   setCategoryColor('');
   setIsEditing(false);
+
+}
+
+ const removeItem1=(id, name)=>{
+    showAlert(true, 'failure', `category deleted`)
+
+     setList(list.map(item=>{
+    if(item.name===name){
+     
+      return {...item,  name:'uncategorized', color:'grey' }
+ 
+    }
+    return item
+  }))
+  setCopyList(list);
+     setCategoriesSelected(categoriesSelected.filter(item=>item.id !==id))
+  setIsEditing(false);
+  setIsNotescategory(true);
 
 }
 
@@ -104,24 +121,31 @@ setTopic('');
 setText('');
 setCategoryName('');
   setCategoryColor('');
+  setIsMenuBar(true);
 }
  else if ((topic|| text) && isEditing){
   showAlert(true, 'success', `${topic} changed`)
   //editing part
   setList(list.map(item=>{
-       if(item.id===editId){
-         return {...item, title:topic, note:text, name:categoryName, color:categoryColor }
+       if(item.id===editId){ 
+         if(item.name==='uncategorized'){
+          setCategoryName('uncategorized')
+  setCategoryColor('grey')
        }
-       return item
-     }))
-
-     const newCategory={id:new Date().getTime().toString(), name:categoryName, color:categoryColor}
+       else{
+        const newCategory={id:new Date().getTime().toString(), name:categoryName, color:categoryColor}
      const uniqueCategories=[...categoriesSelected, newCategory].reduce((a,c)=>{!a.find(v=>v.name===c.name) &&a.push(c);
     return a;
   
   },[])
  
   setCategoriesSelected(uniqueCategories);
+       }
+         return {...item, title:topic, note:text, name:categoryName, color:categoryColor }
+       }
+       return item
+     }))
+     
      setShowNotes(!showNotes); 
       setAddNewNote(!addNewNote);
       setIsShowNavToggle(true);
@@ -132,31 +156,29 @@ setCategoryName('');
   setCategoryName('');
   setCategoryColor('');
      setEditId(null);
+     setIsMenuBar(true);
 
 }else{
   if(categoryColor==='' && categoryName==='' ){
 
     showAlert(true, 'success', `${topic} added to uncategorized`)
+    setCategoryName('uncategorized')
+  setCategoryColor('grey')
 setShowNotes(!showNotes); 
 setAddNewNote(!addNewNote);
 setIsNewCategory(false)
 setCopyList(list);
 setIsShowNavToggle(true);
 const newList={id:new Date().getTime().toString(), title:topic, note:text, name:'uncategorized', color:'grey'}
-const newCategory={id:new Date().getTime().toString(), name:'uncategorized', color:'grey'}
 
   setList([...list, newList]);
-  console.log(list)
-  const uniqueCategories=[...categoriesSelected, newCategory].reduce((a,c)=>{!a.find(v=>v.name===c.name) &&a.push(c);
-    return a;
+
   
-  },[])
- 
-  setCategoriesSelected(uniqueCategories);
   setTopic('');
   setText('');
   setCategoryName('');
   setCategoryColor('');
+  setIsMenuBar(true);
    
 
   }else{
@@ -166,6 +188,7 @@ setAddNewNote(!addNewNote);
 setIsNewCategory(false)
 setCopyList(list);
 setIsShowNavToggle(true);
+setIsMenuBar(true);
 const newList={id:new Date().getTime().toString(), title:topic, note:text, name:categoryName, color:categoryColor  }
 const newCategory={id:new Date().getTime().toString(), name:categoryName, color:categoryColor}
 
@@ -186,12 +209,15 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
 }
 
 const editItem=(id)=>{
-  const specificItem= list.find(item=>item.id== id)
+ 
+  const specificItem= list.find(item=>item.id=== id)
   setIsEditing(true);
   setEditId(id);
 setShowNotes(false); 
 setAddNewNote(true);
 setIsShowNavToggle(false);
+setIsMenuBar(false);
+setIsNewCategory(false);
    setTopic(specificItem.title);
   setText(specificItem.note);
   setCategoryName(specificItem.name);
@@ -210,11 +236,19 @@ const showAlert = (state=false, status='', msg='')=>{
       <h2>Notes App</h2>
       </div>
       <div className='section'>
+    {isMenuBar && 
+    <button className='menu-bar' onClick={()=>{setIsNotescategory(!isNotesCategory);
+      }} >
+        < FaBars/>
+        
+      </button>
+}
         { isShowNavToggle &&
     <button className='nav-toggle' onClick={()=>{setAddNewNote(!addNewNote);
     setShowNotes(!showNotes);
     setIsNewCategory(false);
     setCopyList(list);
+    setIsMenuBar(false);
     setIsShowNavToggle(false);}} >
         <MdAdd/>
       </button>
@@ -309,7 +343,8 @@ const showAlert = (state=false, status='', msg='')=>{
          placeholder='Title'
          className='input-title'
          value={topic}
-         onChange={(e)=>setTopic(e.target.value)}></input>
+         onChange={(e)=>{setTopic(e.target.value);
+         setIsNewCategory(false)}}></input>
          <br></br>
 
          <textarea type='text' 
@@ -332,48 +367,88 @@ const showAlert = (state=false, status='', msg='')=>{
         {showNotes && <article className='notesPage'>
           <br/> <br/>
          
-      <div className='notesCategory'>
-        <div className={`notesCategoryCircle allNotes`} style={{
+      {isNotesCategory && <div className='notesCategory'>
+         <div style={{display:'flex', justifyContent:'flex-start', margin:'0 0.5rem'}}><CgNotes className='cgNotes'/>
+        <div className={` allNotes`} style={{
                   padding:' 5px 30px',
                   borderRadius:'10px',
                   textAlign:'center',
                 color:'black',
                 display:'inline-block',
                  cursor:'pointer',
+                 backgroundColor:'transparent',
+                 marginRight:'1rem',
+                 marginTop:'-12px'
                 //  width:'50px'
           }}
 
-                  onClick={()=>{setCopyList(list)}}>All notes</div>
-
+                  onClick={()=>{setCopyList(list);
+                  setIsNotescategory(false);}}><h4>All notes</h4></div> </div> <br/>
+                   <div className='dottedLines'>&nbsp;&nbsp;&nbsp;</div>
+               <div style={{display:'flex', justifyContent:'space-between', margin:'0 0.5rem'}}><h5>All Categories </h5> <RiArrowDropUpLine className='dropDown' onClick={()=>setShowCategories(!showCategories)}/></div>
+                {showCategories && <>
          {categoriesSelected.map(category=>{
-              const {name, color}= category
+              const {name, color, id}= category
+             
                const myStyle1= {backgroundColor: `${color}`,
                   padding:' 5px 10px',
                   borderRadius:'10px',
                   textAlign:'center',
                    display:'inline-block',
                  cursor:'pointer',
-                 color:'white'
+                 color:'white',
+                 
                  
           }
-              return(<>
-            <div className={`notesCategoryCircle`}
-            style={myStyle1} 
+              return(
+              <div className={`notesCategoryCircle2`}>
+              <div className={`notesCategoryCircle`}
+            style={myStyle1}   key={id}
             onClick={()=>{
             setCopyList(list); 
             filterCategories(name);
-            
+            setIsNotescategory(false);
+           
             }}>
              {name}
+             
             </div> 
-            
+             <button
+                type='button'
+                className='delete-btn1'
+                onClick={() =>{ removeItem1(id,name);
+                  setIsNotescategory(true); 
+                 setIsMenuBar(true);
+                  setShowNotes(true);
+                setAddNewNote(false);
+                setIsNewCategory(false);
+                setIsShowNavToggle(true);
+                }}
+              > <FaTrash /></button>
                 
-              </>)
+              </div>)
          })}
+
+          <div className={`notesCategoryCircle allNotes2`} style={{
+                  padding:' 5px 30px',
+                  borderRadius:'10px',
+                  textAlign:'center',
+                color:'white',
+                display:'inline-block',
+                 cursor:'pointer',
+                 backgroundColor:'grey'
+                //  width:'50px'
+          }}
+
+                  onClick={()=>{setCopyList(list); 
+            filterCategories('uncategorized');
+                  setIsNotescategory(false);}}>uncategorized</div>
+                 </>
+                 }
           
-      </div>
-      <div className='actualNotes'>{copyList.length<1? <p className='noNotes'>No notes </p>: copyList.map((maps)=>{
-        const{id, note, title, name, color}=maps
+      </div>}
+      <div className='actualNotes' onClick={()=>setIsNotescategory(false)}>{copyList.length<1? <p className='noNotes'>No notes </p>: copyList.map(maps=>{
+        const{id, note, title,  color}= maps
         return(<div className='singleNote' key={id} >
           <button
                 type='button'

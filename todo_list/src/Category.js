@@ -1,11 +1,5 @@
 export const categoryData=[
-    {
-        color:"Violet",
-        id:1,
-        code:'#e38bda',
-        name:''
-
-    }, {
+     {
         color:"Indigo",
         id:2,
         code:'#ffa4a4',
@@ -16,13 +10,6 @@ export const categoryData=[
         color:"Blue",
         id:3,
         code:'#fdd39b',
-        name:''
-
-    },
-     {
-        color:"Green",
-        id:4,
-        code:'#96bcf3',
         name:''
 
     },
