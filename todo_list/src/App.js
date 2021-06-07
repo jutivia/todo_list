@@ -5,7 +5,7 @@ import {categoryData} from './Category.js'
 // import { FaBars } from 'react-icons/fa'
 import { FaTrash } from 'react-icons/fa'
 import {MdAdd } from 'react-icons/md'
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { RiArrowDropUpLine} from 'react-icons/ri'
 import {CgNotes} from'react-icons/cg'
 
@@ -209,19 +209,19 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
 }
 
 const editItem=(id)=>{
- 
+
   const specificItem= list.find(item=>item.id=== id)
   setIsEditing(true);
   setEditId(id);
 setShowNotes(false); 
 setAddNewNote(true);
 setIsShowNavToggle(false);
-setIsMenuBar(false);
 setIsNewCategory(false);
    setTopic(specificItem.title);
   setText(specificItem.note);
   setCategoryName(specificItem.name);
   setCategoryColor(specificItem.color);
+  
  
 
 }
@@ -237,7 +237,8 @@ const showAlert = (state=false, status='', msg='')=>{
       </div>
       <div className='section'>
     {isMenuBar && 
-    <button className='menu-bar' onClick={()=>{setIsNotescategory(!isNotesCategory);
+    <button className='menu-bar' onClick={()=>{setIsNotescategory(true);
+      setIsMenuBar(false);
       }} >
         < FaBars/>
         
@@ -347,13 +348,12 @@ const showAlert = (state=false, status='', msg='')=>{
          setIsNewCategory(false)}}></input>
          <br></br>
 
-         <textarea type='text' 
+         <input type='text' 
          placeholder='Notes'
          className='notes'
-         size='5rem'
          value={text}
          onChange={(e)=>setText(e.target.value)}
-         ></textarea>
+         ></input>
          <br></br>
         
       </div>
@@ -368,6 +368,13 @@ const showAlert = (state=false, status='', msg='')=>{
           <br/> <br/>
          
       {isNotesCategory && <div className='notesCategory'>
+        <button className='times-bar ' onClick={()=>{setIsNotescategory(false);
+        setIsMenuBar(true);
+
+      }} >
+        < FaTimes/>
+        
+      </button>
          <div style={{display:'flex', justifyContent:'flex-start', margin:'0 0.5rem', paddingTop:'20px'}}><CgNotes className='cgNotes'/>
         <div className={` allNotes`} style={{
                   padding:' 5px 30px',
@@ -383,7 +390,8 @@ const showAlert = (state=false, status='', msg='')=>{
           }}
 
                   onClick={()=>{setCopyList(list);
-                  setIsNotescategory(false);}}><h4>All notes</h4></div> </div> <br/>
+                  setIsNotescategory(false);
+                  setIsMenuBar(true);}}><h4>All notes</h4></div> </div> <br/>
                    <div className='dottedLines'>&nbsp;&nbsp;&nbsp;</div>
                <div style={{display:'flex', justifyContent:'space-between', margin:'0 0.5rem'}}><h5>All Categories </h5> <RiArrowDropUpLine className='dropDown' onClick={()=>setShowCategories(!showCategories)}/></div>
                 {showCategories && <>
@@ -408,6 +416,7 @@ const showAlert = (state=false, status='', msg='')=>{
             setCopyList(list); 
             filterCategories(name);
             setIsNotescategory(false);
+            setIsMenuBar(true);
            
             }}>
              {name}
@@ -442,12 +451,14 @@ const showAlert = (state=false, status='', msg='')=>{
 
                   onClick={()=>{setCopyList(list); 
             filterCategories('uncategorized');
-                  setIsNotescategory(false);}}>uncategorized</div>
+                  setIsNotescategory(false);
+                  setIsMenuBar(true);}}>uncategorized</div>
                  </>
                  }
           
       </div>}
-      <div className='actualNotes' onClick={()=>setIsNotescategory(false)}>{copyList.length<1? <p className='noNotes'>No notes </p>: copyList.map(maps=>{
+      <div className='actualNotes' onClick={()=>{setIsNotescategory(false);
+      setIsMenuBar(true);}}>{copyList.length<1? <p className='noNotes'>No notes </p>: copyList.map(maps=>{
         const{id, note, title,  color}= maps
         return(<div className='singleNote' key={id} >
           <button
@@ -457,7 +468,9 @@ const showAlert = (state=false, status='', msg='')=>{
               >
                 <FaTrash />
               </button>
-          <div  onClick={()=>editItem(id)}>
+          <div  onClick={()=>{setIsMenuBar(false);
+            editItem(id);
+          }}>
           <div style={{
             height:'10px',
             width:'10px',
@@ -466,8 +479,8 @@ const showAlert = (state=false, status='', msg='')=>{
             marginTop:'0',
 
           }}></div>
-         <h4>{(title.length>15)?`${title.substring(0,15)}...` :`${title}`}</h4>
-          <p>{(note.length>40)?`${note.substring(0,40)}...` : `${note}`}</p>
+         <h4>{(title.length>15)?`${title.substring(0,20)}...` :`${title}`}</h4>
+          <p>{(note.length>40)?`${note.substring(0,50)}...` : `${note}`}</p>
         
           
         </div>
