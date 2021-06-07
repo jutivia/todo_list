@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
+import TextareaAutosize from 'react-textarea-autosize'
 // import {Spring} from 'react-spring'
 import Alert from './Alert.js'
 import {categoryData} from './Category.js'
@@ -8,6 +9,8 @@ import {MdAdd } from 'react-icons/md'
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { RiArrowDropUpLine} from 'react-icons/ri'
 import {CgNotes} from'react-icons/cg'
+
+
 
 const getLocalstorage=()=>{
   let list= localStorage.getItem('list')
@@ -209,7 +212,7 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
 }
 
 const editItem=(id)=>{
-
+setIsMenuBar(false)
   const specificItem= list.find(item=>item.id=== id)
   setIsEditing(true);
   setEditId(id);
@@ -229,6 +232,10 @@ setIsNewCategory(false);
 const showAlert = (state=false, status='', msg='')=>{
   setIsAlert({state, status, msg})
   }
+// const refContainer= useRef(null);
+//  useEffect(()=>{
+//     refContainer.current.focus();
+//   })
 
   return (<>
     <section className='section-center' >
@@ -311,10 +318,8 @@ const showAlert = (state=false, status='', msg='')=>{
              const myStyle= {backgroundColor: `${code}`,
                   height:'30px',
                   width:'30px',
-                  borderRadius:'50%',
-                  
-          
-                 
+                  borderRadius:'50%',  
+
           }
           
             return (<div >
@@ -340,24 +345,24 @@ const showAlert = (state=false, status='', msg='')=>{
           <div><button type='submit'  className='saveButton' 
          > {isEditing? 'edit' :'save'} </button></div>
            </div>
-         <input type='text' 
+         <TextareaAutosize
+         autoFocus
+         cacheMeasurements
          placeholder='Title'
          className='input-title'
          value={topic}
          onChange={(e)=>{setTopic(e.target.value);
-         setIsNewCategory(false)}}></input>
+         setIsNewCategory(false)}}/>
          <br></br>
 
-         <input type='text' 
+         <TextareaAutosize cacheMeasurements
          placeholder='Notes'
          className='notes'
          value={text}
          onChange={(e)=>setText(e.target.value)}
-         ></input>
+         />
          <br></br>
-        
       </div>
-        
           </form>
       </div>
      </> }

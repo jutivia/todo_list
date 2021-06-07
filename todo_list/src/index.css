@@ -409,13 +409,12 @@ border-radius:10px;
   /* margin:20px 0;  */
   background-color: transparent;
   outline: none;
-  width: 95%;
-  line-height: 20px;
+  min-width: 95%;
+  line-height: 25px;
   border: none;
   font-size: 24px;
   font-weight: bold;
-  height:auto;
-  overflow-y:visible;
+
   line-break:loose;
   word-break: break-word;
 }
@@ -424,13 +423,13 @@ border-radius:10px;
   background-color: transparent;
   outline: none;
   width: 95%;
-  min-height: 30rem;
+min-height:20rem;
   line-height: 20px;
   text-align: top;
   border: none;
   margin-bottom: 20px;
   margin-left: 10px;
-  overflow-y:visible;
+  
 }
 
 .words {
