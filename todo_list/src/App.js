@@ -45,7 +45,7 @@ function App() {
   const[showNotes, setShowNotes]= useState(true)
   const [isShowNavToggle, setIsShowNavToggle]=useState(true);
   const [isNotesCategory, setIsNotescategory]=useState(false);
-  const [isMenuBar ,setIsMenuBar]= useState(true)
+  const [isMenuBar ,setIsMenuBar]= useState(true);
   const[showCategories, setShowCategories]= useState(false);
   
 
@@ -212,8 +212,7 @@ const newCategory={id:new Date().getTime().toString(), name:categoryName, color:
 }
 
 const editItem=(id)=>{
-setIsMenuBar(false)
-  const specificItem= list.find(item=>item.id=== id)
+  const specificItem= list.find(item=>item.id=== id);
   setIsEditing(true);
   setEditId(id);
 setShowNotes(false); 
@@ -380,16 +379,16 @@ const showAlert = (state=false, status='', msg='')=>{
         < FaTimes/>
         
       </button>
-         <div style={{display:'flex', justifyContent:'flex-start', margin:'0 0.5rem', paddingTop:'20px'}}><CgNotes className='cgNotes'/>
+         <div style={{display:'flex', justifyContent:'space-between', margin:'0 0', width:'90%', paddingTop:'3rem', marginBottom:'-30px'}}><CgNotes className='cgNotes'/>
         <div className={` allNotes`} style={{
-                  padding:' 5px 30px',
+                  padding:' 5px 5px',
                   borderRadius:'10px',
                   textAlign:'center',
                 color:'black',
                 display:'inline-block',
                  cursor:'pointer',
                  backgroundColor:'transparent',
-                 marginRight:'1rem',
+                 
                  marginTop:'-12px'
                 //  width:'50px'
           }}
@@ -398,7 +397,7 @@ const showAlert = (state=false, status='', msg='')=>{
                   setIsNotescategory(false);
                   setIsMenuBar(true);}}><h4>All notes</h4></div> </div> <br/>
                    <div className='dottedLines'>&nbsp;&nbsp;&nbsp;</div>
-               <div style={{display:'flex', justifyContent:'space-between', margin:'0 0.5rem'}}><h5>All Categories </h5> <RiArrowDropUpLine className='dropDown' onClick={()=>setShowCategories(!showCategories)}/></div>
+               <div style={{display:'flex', justifyContent:'space-between', margin:'10px 0.2rem', width:'100%'}}><h5>All Categories </h5> <RiArrowDropUpLine className='dropDown' onClick={()=>setShowCategories(!showCategories)}/></div>
                 {showCategories && <>
          {categoriesSelected.map(category=>{
               const {name, color, id}= category
@@ -443,14 +442,15 @@ const showAlert = (state=false, status='', msg='')=>{
               </div>)
          })}
 
-          <div className={`notesCategoryCircle allNotes2`} style={{
-                  padding:' 5px 30px',
+          <div className={`notesCategoryCircle2 allNotes2`} style={{
+                  padding:'5px 3px',
                   borderRadius:'10px',
                   textAlign:'center',
                 color:'white',
                 display:'inline-block',
                  cursor:'pointer',
-                 backgroundColor:'grey'
+                 backgroundColor:'grey',
+                 marginTop:'10px'
                 //  width:'50px'
           }}
 
@@ -465,7 +465,7 @@ const showAlert = (state=false, status='', msg='')=>{
       <div className='actualNotes' onClick={()=>{setIsNotescategory(false);
       setIsMenuBar(true);}}>{copyList.length<1? <p className='noNotes'>No notes </p>: copyList.map(maps=>{
         const{id, note, title,  color}= maps
-        return(<div className='singleNote' key={id} >
+        return(<div className='singleNote' key={id}  >
           <button
                 type='button'
                 className='delete-btn'
@@ -473,8 +473,8 @@ const showAlert = (state=false, status='', msg='')=>{
               >
                 <FaTrash />
               </button>
-          <div  onClick={()=>{setIsMenuBar(false);
-            editItem(id);
+          <div  onClick={()=>{editItem(id);
+          setIsMenuBar(!isMenuBar);
           }}>
           <div style={{
             height:'10px',
@@ -484,8 +484,8 @@ const showAlert = (state=false, status='', msg='')=>{
             marginTop:'0',
 
           }}></div>
-         <h4>{(title.length>15)?`${title.substring(0,20)}...` :`${title}`}</h4>
-          <p>{(note.length>40)?`${note.substring(0,50)}...` : `${note}`}</p>
+         <h4>{(title.length>30)?`${title.substring(0,30)}...` :`${title}`}</h4>
+          <p>{(note.length>70)?`${note.substring(0,70)}...` : `${note}`}</p>
         
           
         </div>
